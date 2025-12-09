@@ -1,5 +1,6 @@
 package com.vmazzola.orders.domain;
 
+import com.vmazzola.orders.domain.discount.DiscountPolicy;
 import lombok.Getter;
 
 import java.math.BigDecimal;
@@ -24,7 +25,7 @@ public class Order {
 
     }
 
-    public void addItem(Product product, int quantity) {
+    public void addItem(Product product, int quantity, DiscountPolicy discountPolicy) {
         if (product == null) {
             throw new IllegalArgumentException("Product cannot be null");
         }
@@ -33,7 +34,7 @@ public class Order {
             throw new IllegalArgumentException("Quantity cannot be zero or negative");
         }
 
-        items.add(new OrderItem(product, quantity));
+        items.add(new OrderItem(product, quantity, discountPolicy));
     }
 
 
