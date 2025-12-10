@@ -3,6 +3,7 @@ package com.vmazzola.orders.api;
 import com.vmazzola.orders.api.dto.CreateOrderRequest;
 import com.vmazzola.orders.api.dto.OrderResponse;
 import com.vmazzola.orders.domain.Order;
+import com.vmazzola.orders.exception.OrderNotFoundException;
 import com.vmazzola.orders.service.OrderService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -36,5 +37,10 @@ public class OrderController {
         Order order = orderService.findById(id);
 
         return ResponseEntity.ok(order);
+    }
+
+    @ExceptionHandler(OrderNotFoundException.class)
+    public ResponseEntity<String> handleNotFound(OrderNotFoundException ex) {
+        return ResponseEntity.status(404).body(ex.getMessage());
     }
 }
