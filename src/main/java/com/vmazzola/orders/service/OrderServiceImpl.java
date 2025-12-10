@@ -1,10 +1,12 @@
 package com.vmazzola.orders.service;
 
 import com.vmazzola.orders.domain.Order;
+import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
 
+@Service
 public class OrderServiceImpl implements OrderService {
     private final Map<Long, Order> storage = new HashMap<>();
 

@@ -1,4 +1,4 @@
-package com.vmazzola.orders.orders_api;
+package com.vmazzola.orders;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
