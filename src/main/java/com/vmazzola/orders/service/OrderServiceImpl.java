@@ -5,6 +5,7 @@ import com.vmazzola.orders.domain.Order;
 import com.vmazzola.orders.domain.OrderItem;
 import com.vmazzola.orders.domain.Product;
 import com.vmazzola.orders.domain.discount.NoDiscount;
+import com.vmazzola.orders.exception.OrderNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -42,7 +43,7 @@ public class OrderServiceImpl implements OrderService {
         Order order = storage.get(id);
 
         if (order == null) {
-            throw new RuntimeException("Order not found");
+            throw new OrderNotFoundException(id);
         }
 
         return order;
