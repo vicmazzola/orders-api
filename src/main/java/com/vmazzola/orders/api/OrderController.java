@@ -22,7 +22,7 @@ public class OrderController {
     public ResponseEntity<OrderResponse> createOrder(@RequestBody CreateOrderRequest request) {
 
         Order order = new Order(request.id());
-        Order created = orderService.create(order);
+        Order created = orderService.create(request);
 
         OrderResponse response = new OrderResponse(created.getId(), created.getTotal());
 

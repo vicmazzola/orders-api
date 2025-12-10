@@ -42,4 +42,8 @@ public class Product {
                 ", price=" + price +
                 '}';
     }
+
+    public static Product placeholder(Long id){
+        return new Product(id, "Placeholder", BigDecimal.TEN);
+    }
 }

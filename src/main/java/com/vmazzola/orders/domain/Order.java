@@ -2,12 +2,14 @@ package com.vmazzola.orders.domain;
 
 import com.vmazzola.orders.domain.discount.DiscountPolicy;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+@Slf4j
 @Getter
 public class Order {
     private final Long id;
@@ -23,6 +25,12 @@ public class Order {
         this.id = id;
         this.items = new ArrayList<>();
 
+    }
+
+    public Order(Long id, List<OrderItem> items) {
+        Objects.requireNonNull(id, "Id cannot be null");
+        this.id = id;
+        this.items = new ArrayList<>(items);
     }
 
     public void addItem(Product product, int quantity, DiscountPolicy discountPolicy) {

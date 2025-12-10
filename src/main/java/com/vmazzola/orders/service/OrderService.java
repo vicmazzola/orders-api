@@ -1,10 +1,11 @@
 package com.vmazzola.orders.service;
 
+import com.vmazzola.orders.api.dto.CreateOrderRequest;
 import com.vmazzola.orders.domain.Order;
 
 public interface OrderService {
 
-    Order create(Order order);
+    Order create(CreateOrderRequest request);
 
     Order findById(Long id);
 }
