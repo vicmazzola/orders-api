@@ -1,4 +1,9 @@
 package com.vmazzola.orders.api.dto;
 
-public class OrderResponse {
+import java.math.BigDecimal;
+
+public record OrderResponse(
+        Long id,
+        BigDecimal total
+) {
 }

@@ -1,6 +1,7 @@
 package com.vmazzola.orders.api;
 
 import com.vmazzola.orders.api.dto.CreateOrderRequest;
+import com.vmazzola.orders.api.dto.OrderResponse;
 import com.vmazzola.orders.domain.Order;
 import com.vmazzola.orders.service.OrderService;
 import org.springframework.http.ResponseEntity;
@@ -18,12 +19,14 @@ public class OrderController {
 
     // POST /orders
     @PostMapping
-    public ResponseEntity<Order> createOrder(@RequestBody CreateOrderRequest request) {
+    public ResponseEntity<OrderResponse> createOrder(@RequestBody CreateOrderRequest request) {
 
         Order order = new Order(request.id());
         Order created = orderService.create(order);
 
-        return ResponseEntity.ok(created);
+        OrderResponse response = new OrderResponse(created.getId(), created.getTotal());
+
+        return ResponseEntity.ok(response);
 
     }
 
