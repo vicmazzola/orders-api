@@ -22,10 +22,12 @@ public class OrderController {
     @PostMapping
     public ResponseEntity<OrderResponse> createOrder(@RequestBody CreateOrderRequest request) {
 
-        Order order = new Order(request.id());
         Order created = orderService.create(request);
 
-        OrderResponse response = new OrderResponse(created.getId(), created.getTotal());
+        OrderResponse response = new OrderResponse(
+                created.getId(),
+                created.getTotal()
+        );
 
         return ResponseEntity.ok(response);
 
