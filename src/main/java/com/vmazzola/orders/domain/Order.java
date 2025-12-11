@@ -1,7 +1,13 @@
 package com.vmazzola.orders.domain;
 
 import com.vmazzola.orders.domain.discount.DiscountPolicy;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.math.BigDecimal;
@@ -11,9 +17,15 @@ import java.util.Objects;
 
 @Slf4j
 @Getter
+@Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED) // JPA exige isso
 public class Order {
-    private final Long id;
-    private final List<OrderItem> items;
+
+    @Id
+    private Long id;
+
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<OrderItem> items;
 
     public Order(Long id) {
 
@@ -23,7 +35,6 @@ public class Order {
         }
 
         this.id = id;
-        this.items = new ArrayList<>();
 
     }
 
@@ -42,7 +53,7 @@ public class Order {
             throw new IllegalArgumentException("Quantity cannot be zero or negative");
         }
 
-        items.add(new OrderItem(product, quantity, discountPolicy));
+        items.add(new OrderItem(this, product, quantity, discountPolicy));
     }
 
 

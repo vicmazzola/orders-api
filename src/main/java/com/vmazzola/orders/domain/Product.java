@@ -1,14 +1,22 @@
 package com.vmazzola.orders.domain;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.util.Objects;
 
 @Getter
+@Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Product {
 
+    @Id
     private Long id;
+
     private String name;
     private BigDecimal price;
 
