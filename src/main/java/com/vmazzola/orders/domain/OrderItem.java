@@ -1,6 +1,7 @@
 package com.vmazzola.orders.domain;
 
 import com.vmazzola.orders.domain.discount.DiscountPolicy;
+import com.vmazzola.orders.domain.discount.NoDiscount;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -19,6 +20,7 @@ public class OrderItem {
     private Long id;
 
     @ManyToOne(optional = false)
+    @JoinColumn(name = "order_id")
     private Order order;
 
     @ManyToOne(optional = false)
@@ -48,7 +50,10 @@ public class OrderItem {
     }
 
     public BigDecimal getTotal() {
+        DiscountPolicy policy = discountPolicy != null ? discountPolicy : new NoDiscount();
+
         BigDecimal baseTotal = product.getPrice().multiply(BigDecimal.valueOf(quantity));
-        return discountPolicy.apply(baseTotal);
+
+        return policy.apply(baseTotal);
     }
 }
