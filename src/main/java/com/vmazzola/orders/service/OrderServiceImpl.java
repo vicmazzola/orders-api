@@ -6,6 +6,7 @@ import com.vmazzola.orders.domain.OrderItem;
 import com.vmazzola.orders.domain.Product;
 import com.vmazzola.orders.domain.discount.NoDiscount;
 import com.vmazzola.orders.exception.OrderNotFoundException;
+import com.vmazzola.orders.repository.OrderRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -14,38 +15,32 @@ import java.util.Map;
 
 @Service
 public class OrderServiceImpl implements OrderService {
-    private final Map<Long, Order> storage = new HashMap<>();
+    private final OrderRepository orderRepository;
+
+    public OrderServiceImpl(OrderRepository orderRepository) {
+        this.orderRepository = orderRepository;
+
+    }
 
     @Override
     public Order create(CreateOrderRequest request) {
 
-        // 1) Convert DTO -> Domain
-        List<OrderItem> items = request.items().stream()
-                .map(dto -> new OrderItem(
-                        Product.placeholder(
-                                dto.productId()),
-                        dto.quantity(),
-                        new NoDiscount()
-                ))
-                .toList();
+        Order order = new Order();
 
-        // 2) Create Oder
-        Order order = new Order(request.id(), items);
+        request.items().forEach(dto -> {
+            order.addItem(Product.placeholder(dto.productId()),
+                    dto.quantity(),
+                    new NoDiscount()
+            );
+        });
 
-        // 3) Save in storage
-        storage.put(order.getId(), order);
-
-        return order;
+        return orderRepository.save(order);
     }
+
 
     @Override
     public Order findById(Long id) {
-        Order order = storage.get(id);
-
-        if (order == null) {
-            throw new OrderNotFoundException(id);
-        }
-
-        return order;
+        return orderRepository.findById(id)
+                .orElseThrow(() -> new OrderNotFoundException(id));
     }
 }
