@@ -5,8 +5,11 @@ import com.vmazzola.orders.api.dto.OrderResponse;
 import com.vmazzola.orders.domain.Order;
 import com.vmazzola.orders.exception.OrderNotFoundException;
 import com.vmazzola.orders.service.OrderService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/orders")
@@ -20,7 +23,9 @@ public class OrderController {
 
     // POST /orders
     @PostMapping
-    public ResponseEntity<OrderResponse> createOrder(@RequestBody CreateOrderRequest request) {
+    public ResponseEntity<OrderResponse> createOrder(
+            @Valid @RequestBody CreateOrderRequest request
+    ) {
 
         Order created = orderService.create(request);
 
@@ -39,6 +44,12 @@ public class OrderController {
         Order order = orderService.findById(id);
 
         return ResponseEntity.ok(order);
+    }
+
+    // GET /orders
+    @GetMapping
+    public ResponseEntity<List<OrderResponse>> getAllOrders() {
+        return ResponseEntity.ok(orderService.findAll());
     }
 
     @ExceptionHandler(OrderNotFoundException.class)

@@ -13,6 +13,7 @@ import java.util.List;
 @Slf4j
 @Getter
 @Entity
+@Table(name = "orders")
 @NoArgsConstructor
 public class Order {
 
