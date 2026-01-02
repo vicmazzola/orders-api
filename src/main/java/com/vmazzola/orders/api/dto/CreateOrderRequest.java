@@ -1,10 +1,13 @@
 package com.vmazzola.orders.api.dto;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
 
 import java.util.List;
 
 public record CreateOrderRequest(
-        @NotEmpty List<OrderItemRequest> items
+        @NotEmpty(message = "Order must contain at least one item")
+        @Valid
+        List<OrderItemRequest> items
 ) {
 }

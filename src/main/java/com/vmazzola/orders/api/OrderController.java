@@ -68,8 +68,4 @@ public class OrderController {
         return ResponseEntity.noContent().build();
     }
 
-    @ExceptionHandler(OrderNotFoundException.class)
-    public ResponseEntity<String> handleNotFound(OrderNotFoundException ex) {
-        return ResponseEntity.status(404).body(ex.getMessage());
-    }
 }
