@@ -94,11 +94,11 @@ public class OrderServiceImpl implements OrderService {
                             new IllegalArgumentException("Product not found: " + dto.productId())
                     );
 
-        order.addItem(
-                product,
-                dto.quantity(),
-                new NoDiscount()
-        );
+            order.addItem(
+                    product,
+                    dto.quantity(),
+                    new NoDiscount()
+            );
 
         });
 
@@ -106,5 +106,16 @@ public class OrderServiceImpl implements OrderService {
         Order saved = orderRepository.save(order);
 
         return toResponse(saved);
+    }
+
+    @Override
+    public void delete(Long id) {
+
+        // 1. Ensure order exists (consistent error handling)
+        Order order = orderRepository.findById(id)
+                .orElseThrow(() -> new OrderNotFoundException(id));
+
+        // 2. Delete aggreate root (items are deleted via cascade)
+        orderRepository.delete(order);
     }
 }

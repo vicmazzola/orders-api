@@ -60,6 +60,14 @@ public class OrderController {
         return ResponseEntity.ok(response);
     }
 
+    // DELETE /orders/{id}
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteOrder(@PathVariable Long id) {
+        orderService.delete(id);
+
+        return ResponseEntity.noContent().build();
+    }
+
     @ExceptionHandler(OrderNotFoundException.class)
     public ResponseEntity<String> handleNotFound(OrderNotFoundException ex) {
         return ResponseEntity.status(404).body(ex.getMessage());
