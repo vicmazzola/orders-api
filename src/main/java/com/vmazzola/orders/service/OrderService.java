@@ -12,5 +12,7 @@ public interface OrderService {
 
     Order findById(Long id);
 
+    OrderResponse findResponseById(Long id);
+
     List<OrderResponse> findAll();
 }

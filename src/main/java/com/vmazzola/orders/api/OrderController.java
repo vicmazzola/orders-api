@@ -40,10 +40,11 @@ public class OrderController {
 
     // GET /orders{id}
     @GetMapping("/{id}")
-    public ResponseEntity<Order> getOrder(@PathVariable Long id) {
-        Order order = orderService.findById(id);
+    public ResponseEntity<OrderResponse> getOrder(@PathVariable Long id) {
 
-        return ResponseEntity.ok(order);
+        OrderResponse orderResponse = orderService.findResponseById(id);
+
+        return ResponseEntity.ok(orderResponse);
     }
 
     // GET /orders

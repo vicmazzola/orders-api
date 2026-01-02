@@ -52,6 +52,14 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public OrderResponse findResponseById(Long id) {
+        Order order = orderRepository.findById(id)
+                .orElseThrow(() -> new OrderNotFoundException(id));
+
+        return toResponse(order);
+    }
+
+    @Override
     public List<OrderResponse> findAll() {
         return orderRepository.findAll()
                 .stream()
