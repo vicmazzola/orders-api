@@ -9,46 +9,31 @@ A clean and modular Spring Boot API designed to practice **real-world backend de
 
 - **Java 21**
 - **Spring Boot 3.4.12**
-- **Maven**
+- **Spring Data JPA**
+- **H2 Database**
 - **Jakarta Validation**
+- **Maven**
 - **BigDecimal** for financial accuracy
 
 ---
 
-## 📦 Domain Model (Work in Progress)
+## 📦 Domain Model
 
 ### ✔ Product
-
-- Mandatory fields with validation (id, name, price)
-- Defensive constructors to prevent invalid state
+- Persistent entity with id, name, and price
+- Used as a mandatory reference in orders
 
 ### ✔ OrderItem
-
-- Holds product + quantity + discount policy
-- Calculates total using **BigDecimal**
-- Supports custom discount strategies (e.g. `NoDiscount`, `PercentageDiscount` – coming soon)
+- Represents a product and its quantity
+- Part of the `Order` aggregate
+- Calculates totals using **BigDecimal**
+- Supports discount policies (e.g. `NoDiscount`)
 
 ### ✔ Order (Aggregate Root)
-
-- Holds multiple OrderItems
+- Owns and manages multiple `OrderItem`s
+- Controls item lifecycle via cascade + orphan removal
 - Computes full order total
-- New constructor added to support item list initialization
-
----
-
-## 🌐 API Features (In Progress)
-
-- `POST /orders` – create an order from DTOs
-- `GET /orders/{id}` – retrieve stored orders
-- Basic error handling (404 for non-existent orders)
-- DTO → Domain mapping inside the Service layer
-
-Upcoming:
-
-- Full persistence using Spring Data JPA + H2
-- Product repository and validation
-- Global exception handling
-- Advanced discount policies
+- Enforces aggregate consistency
 
 ---
 
@@ -56,3 +41,7 @@ Upcoming:
 
 ```bash
 ./mvnw spring-boot:run
+```
+
+### H2 Console:
+http://localhost:8080/h2-console
