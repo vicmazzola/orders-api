@@ -74,4 +74,37 @@ public class OrderServiceImpl implements OrderService {
                 order.getTotal()
         );
     }
+
+    @Override
+    public OrderResponse update(Long id, CreateOrderRequest request) {
+
+        // 1. Load existing order or fail
+        Order order = orderRepository.findById(id)
+                .orElseThrow(() -> new OrderNotFoundException(id));
+
+
+        // 2. Remove all existing items (orphanRemoval will delete them)
+        order.clearItems();
+
+        // 3. Add new items from request (full replacement)
+        request.items().forEach(dto -> {
+
+            Product product = productRepository.findById(dto.productId())
+                    .orElseThrow(() ->
+                            new IllegalArgumentException("Product not found: " + dto.productId())
+                    );
+
+        order.addItem(
+                product,
+                dto.quantity(),
+                new NoDiscount()
+        );
+
+        });
+
+        // 4. Save and return DTO
+        Order saved = orderRepository.save(order);
+
+        return toResponse(saved);
+    }
 }

@@ -53,6 +53,13 @@ public class OrderController {
         return ResponseEntity.ok(orderService.findAll());
     }
 
+    // PUT /orders/{id}
+    @PutMapping("/{id}")
+    public ResponseEntity<OrderResponse> updateOrder(@PathVariable Long id, @Valid @RequestBody CreateOrderRequest request) {
+        OrderResponse response = orderService.update(id, request);
+        return ResponseEntity.ok(response);
+    }
+
     @ExceptionHandler(OrderNotFoundException.class)
     public ResponseEntity<String> handleNotFound(OrderNotFoundException ex) {
         return ResponseEntity.status(404).body(ex.getMessage());
