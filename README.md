@@ -10,7 +10,8 @@ A clean and modular Spring Boot API designed to practice **real-world backend de
 - **Java 21**
 - **Spring Boot 3.4.12**
 - **Spring Data JPA**
-- **H2 Database**
+- **PostgreSQL** (development)
+- **H2 Database** (tests)
 - **Jakarta Validation**
 - **Maven**
 - **BigDecimal** for financial accuracy
