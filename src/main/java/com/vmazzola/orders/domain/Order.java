@@ -24,7 +24,9 @@ public class Order {
     @OneToMany(
             mappedBy = "order",
             cascade = CascadeType.ALL,
-            orphanRemoval = true)
+            orphanRemoval = true,
+            fetch = FetchType.LAZY
+    )
     private List<OrderItem> items = new ArrayList<>();
 
     public void addItem(Product product, int quantity, DiscountPolicy discountPolicy) {

@@ -1,7 +1,6 @@
 package com.vmazzola.orders.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,17 +14,17 @@ import java.util.Objects;
 public class Product {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String name;
+
+    @Column(nullable = false, precision = 19, scale = 2)
     private BigDecimal price;
 
-    public Product(Long id, String name, BigDecimal price) {
+    public Product(String name, BigDecimal price) {
 
-        Objects.requireNonNull(id, "Id cannot be null");
-        if (id.longValue() <= 0) {
-            throw new IllegalArgumentException("Id cannot be zero or negative");
-        }
 
         Objects.requireNonNull(name, "Name cannot be null");
         if (name.isBlank()) {
@@ -37,7 +36,6 @@ public class Product {
             throw new IllegalArgumentException("Price must be greater than zero");
         }
 
-        this.id = id;
         this.name = name;
         this.price = price;
     }
@@ -45,13 +43,12 @@ public class Product {
     @Override
     public String toString() {
         return "Product{" +
-                "id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 ", price=" + price +
                 '}';
     }
 
-    public static Product placeholder(Long id){
-        return new Product(id, "Placeholder", BigDecimal.TEN);
+    public static Product placeholder() {
+        return new Product("Placeholder", BigDecimal.TEN);
     }
 }
