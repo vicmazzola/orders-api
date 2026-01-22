@@ -38,6 +38,21 @@ A clean and modular Spring Boot API designed to practice **real-world backend de
 
 ---
 
+## 🔒 Transactions & Persistence
+
+Transactional boundaries are defined at the service layer.
+
+- Write operations (`create`, `update`, `delete`) are wrapped in `@Transactional`
+  to ensure atomic changes to the Order aggregate.
+- Read operations that traverse lazy-loaded relationships use
+  `@Transactional(readOnly = true)` to keep the persistence context open safely.
+- Controllers and repositories do not manage transactions directly.
+
+This keeps transaction scope aligned with business use cases.
+
+
+---
+
 ## ▶️ How to Run
 
 ```bash

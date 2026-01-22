@@ -9,6 +9,7 @@ import com.vmazzola.orders.exception.OrderNotFoundException;
 import com.vmazzola.orders.repository.OrderRepository;
 import com.vmazzola.orders.repository.ProductRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -23,6 +24,7 @@ public class OrderServiceImpl implements OrderService {
 
     }
 
+    @Transactional
     @Override
     public Order create(CreateOrderRequest request) {
 
@@ -51,6 +53,7 @@ public class OrderServiceImpl implements OrderService {
                 .orElseThrow(() -> new OrderNotFoundException(id));
     }
 
+    @Transactional(readOnly = true)
     @Override
     public OrderResponse findResponseById(Long id) {
         Order order = orderRepository.findById(id)
@@ -59,6 +62,7 @@ public class OrderServiceImpl implements OrderService {
         return toResponse(order);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<OrderResponse> findAll() {
         return orderRepository.findAll()
@@ -75,6 +79,7 @@ public class OrderServiceImpl implements OrderService {
         );
     }
 
+    @Transactional
     @Override
     public OrderResponse update(Long id, CreateOrderRequest request) {
 
@@ -108,6 +113,7 @@ public class OrderServiceImpl implements OrderService {
         return toResponse(saved);
     }
 
+    @Transactional
     @Override
     public void delete(Long id) {
 
