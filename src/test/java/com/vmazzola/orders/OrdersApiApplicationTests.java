@@ -1,4 +1,4 @@
-package com.vmazzola.orders.orders_api;
+package com.vmazzola.orders;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
