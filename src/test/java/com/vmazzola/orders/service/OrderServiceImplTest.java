@@ -58,5 +58,17 @@ class OrderServiceImplTest {
 
     }
 
+    @Test
+    void findById_whenOrdersExists_shouldReturnOrder() {
+        Order order = new Order();
+
+        when(orderRepository.findById(1L)).thenReturn(Optional.of(order));
+
+        Order result = orderService.findById(1L);
+
+        assertNotNull(result);
+        verify(orderRepository).findById(1L);
+    }
+
 
 }
