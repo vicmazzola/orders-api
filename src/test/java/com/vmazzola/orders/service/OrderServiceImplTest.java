@@ -4,6 +4,7 @@ import com.vmazzola.orders.api.dto.CreateOrderRequest;
 import com.vmazzola.orders.api.dto.OrderItemRequest;
 import com.vmazzola.orders.domain.Order;
 import com.vmazzola.orders.domain.Product;
+import com.vmazzola.orders.exception.OrderNotFoundException;
 import com.vmazzola.orders.repository.OrderRepository;
 import com.vmazzola.orders.repository.ProductRepository;
 import org.junit.jupiter.api.Test;
@@ -16,8 +17,7 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -68,6 +68,16 @@ class OrderServiceImplTest {
 
         assertNotNull(result);
         verify(orderRepository).findById(1L);
+    }
+
+    @Test
+    void findById_whenOrderDoesNotExist_shouldThrowException() {
+        when(orderRepository.findById(99L))
+                .thenReturn(Optional.empty());
+
+        assertThrows(OrderNotFoundException.class, () -> orderService.findById(99L));
+
+        verify(orderRepository).findById(99L);
     }
 
 
