@@ -53,6 +53,26 @@ This keeps transaction scope aligned with business use cases.
 
 ---
 
+## 🧪 Testing
+
+The project follows a layered testing approach to validate behavior at different levels:
+
+- **Domain tests (JUnit 5)**  
+  Verify order calculations and discount rules with no Spring context.
+
+- **Service tests (Mockito)**  
+  Validate core use cases and exception paths with mocked repositories.
+
+- **Integration tests (SpringBootTest)**  
+  Minimal end-to-end verification using a real Spring context and H2:
+    - `POST /orders` → 201 CREATED
+    - `GET /orders/{id}` → returns persisted order
+
+The focus is on **confidence over coverage**, avoiding redundant or brittle tests.
+
+
+---
+
 ## ▶️ How to Run
 
 ```bash
